@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" type="text/css"/>
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+	</head>
+	<body>
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<!-- Login fields -->
+			<ul class="links">
+				<li><a href="login.html">Login</a></li>
+				<li><a href="signup.html">Sign Up</a></li>
+			</ul>
+		</nav>
+		<section id="banner" data-video="images/banner">
+			<div class="inner">
+				<header>
+					<h1>This is Bokeh</h1>
+					<p>A platform to share and view videos</p>
+				</header>
+				<a href="#menu" class="button big alt scrolly">Start</a>
+			</div>
+		</section>
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript">
+			function init()
+			{
+				sessionStorage.setItem("username", "none");
+				sessionStorage.setItem("log","invalid");
+			}
+			init();
+		</script>
+	</body>
+</html>

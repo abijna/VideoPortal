@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<!-- front-end form to fill details about video -->
+
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+		<script type="text/javascript" src="assets/js/dict.js"></script>
+	</head>
+	
+	<body class="subpage">
+	
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="#">Bokeh</a></h1>
+			<a href="#menu">Menu</a>
+		</header>
+		
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><!-- <a href="dashboard.html"> -->Profile</a></li>
+			</ul>
+		</nav>
+		
+		<section class="wrapper style1">
+			<div class="inner">
+				<!-- Form -->
+				<pre><span style="cursor:pointer" id="Eng" onclick="mydo(this,'en')">English</span>  <span style="cursor:pointer" id="Kan" onclick="mydo(this,'kn')">Kannada</span>  <span style="cursor:pointer" id="Hin" onclick="mydo(this,'hi')">Hindi</span></pre>
+				<h3>Video Details</h3>
+
+				<form id="form2" >
+					<div class="row uniform">
+						<input type=hidden id="username" name="username" value="" />
+						<input type=hidden id="video_id" name="video_id" value="" />
+						<div class="12u$">
+							<b><span class="translation" value="en">Title</span> *</b>
+							<input type="text" name="title" id="uname" value="" placeholder="Enter a title ..." required />
+						</div>
+						<div class="12u$">
+							<b><span class="translation" value="en">Category</span> *</b>
+							<select name="category" id="category" style="color:#cccccc;" required>
+								<option value="" style="color:#cccccc;" disabled selected required>Choose category ...</option>
+							</select>
+						</div>
+						<div  class="12u$">
+							<b><span class="translation" value="en">Language</span> *</b>
+							<select name="language" id="language" style="color:#cccccc;" required>
+								<option value="" style="color:#cccccc;" disabled selected required>Choose language ...</option>
+							</select>
+						</div>
+						<div  class="12u$">
+							<b><span class="translation" value="en">Content</span> *</b>
+							<select name="content" id="content" style="color:#cccccc;" required>
+								<option value="" style="color:#cccccc;" disabled selected>Choose content type ...</option>
+								<option value="kid" style='color:black;'>Kids content</option>
+								<option value="adult" style='color:black;'>Adult content</option>
+							</select>
+						</div>
+						<div class="12u$">
+							<b><span class="translation" value="en">Description</span></b>
+							<textarea name="description" id="desc" value="" placeholder="Enter description ..."></textarea>
+						</div>
+						<!-- Break -->
+						<div class="12u$">
+							<b><span class="translation" value="en">Additional tags</span></b>
+							<textarea name="tags" id="tag" value="" placeholder="Additional tags (Ex: tag1, tag2, tag3 ...)" ></textarea>
+						</div>
+						<div class="12u$">
+							<b><span class="translation" value="en">Thumbnail</span></b> : <input type="file" name="filetoupload2" id="FileUpload2" value="" />
+						</div>
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions">
+								<li><input name="submit" value="Submit" type="submit" id="sub" /></li>
+								<li><input type="reset" value="Reset" class="alt" /></li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script>
+			document.getElementById("username").value = sessionStorage.getItem("username");
+			document.getElementById("video_id").value = sessionStorage.getItem("video_id");
+
+			var categories = new Array("Auto & Vehicles","Beauty & Fashion","Comedy","Education","Entertainment","Family Entertainment",
+						"Film & Animation","Food","Gaming","How-to & Style","Music","News & Politics","Nonprofits & Activism","People & Blogs",
+						"Pets & Animals","Science & Technology","Sports","Travel & Events","Others");
+			var selectCat = document.getElementById('category');
+			for(var i = 0; i < categories.length; i++){
+				selectCat.options.add(new Option(categories[i], categories[i]));
+			} 
+			
+			var languages = new Array("English","Hindi","Kannada","Telugu","Tamil","French");
+			var selectLang = document.getElementById('language');
+			for(var i = 0; i < languages.length; i++){
+				selectLang.options.add(new Option(languages[i], languages[i]));
+			} 
+			
+			$(document).ready(function () {
+			//$("#sub").click(function (event) {
+			$(document).on('click', '#sub', function() {
+				//stop submit the form, we will post it manually.
+				event.preventDefault();
+				// Get form
+				var form = $('#form2')[0];
+
+				// Create an FormData object 
+				var data = new FormData(form);
+
+				$.ajax({
+					type: "POST",
+					enctype: 'multipart/form-data',
+					url: "http://localhost:3000/upload/details/",
+					data: data,
+					processData: false,
+					contentType: false,
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+						window.location.href="subtitles.html";
+					},
+					error: function (e) {
+						console.log("ERROR : ", e);
+					}
+				});
+
+			});
+
+		});
+
+		</script>	
+		<script> 
+		/* language translation*/
+		function mydo(event,val){
+			var elements=document.querySelectorAll(".translation");
+			
+			for(var i=0;i<elements.length;i++){
+				
+				var txt = elements[i].innerHTML;
+				var present = elements[i].getAttribute("value");
+
+				if(val=='kn' && present=='en'){
+					if(txt.toLowerCase() in en_kn){
+						elements[i].innerHTML = en_kn[txt.toLowerCase()];
+						elements[i].setAttribute("value","kn");
+					}
+				}
+				if(val=='hi' && present=='en'){
+					if(txt.toLowerCase() in en_hi){
+					elements[i].innerHTML = en_hi[txt.toLowerCase()];
+					elements[i].setAttribute("value","hi");
+					}
+				}
+				if(val=='en' && present=='kn'){
+					elements[i].innerHTML = kn_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='en' && present=='hi'){
+					elements[i].innerHTML = hi_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='kn' && present=='hi'){
+					elements[i].innerHTML = en_kn[hi_en[txt]];
+					elements[i].setAttribute("value","kn");
+				}
+				if(val=='hi' && present=='kn'){
+					elements[i].innerHTML = en_hi[kn_en[txt]];
+					elements[i].setAttribute("value","hi");
+				}
+			}
+		}
+		</script>
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

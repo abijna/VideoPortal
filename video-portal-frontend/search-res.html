@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+
+<!-- front-end page to upload video -->
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+		
+	</head>
+	
+	<body >
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="dash.html">Home</a></li>
+				<li><a href="index.html">Logout</a></li>
+				<li><a href="profile.html">Profile</a></li>
+			</ul>
+		</nav>
+		
+		<!-- to make image as a button -->
+		<br><br><br><br>
+		<center>
+			<!-- content -->
+			<div id="videodiv">
+			
+			</div>
+		</center>
+		<br />
+		
+		<section id="list">
+		</section>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript">
+		var style1="background-color:#062038;margin:1%;overflow:auto";
+		var style2="background-color:#041321;margin:1%;overflow:auto";
+		var styl=style1;
+
+		$(document).ready(function(){
+				var data = new Object();
+				data['username'] = sessionStorage.getItem("username");
+				data['type'] = "username";
+				data['filter'] = 0;
+				data1 = JSON.stringify(data);
+				$.ajax({
+					type: 'POST',
+					url: 'http://localhost:3000/search',
+					data: data1 ,
+					contentType: "application/json",
+					success:function(res) 
+					{
+						if(res.length==0){
+							var h1 = document.createElement("h1");
+							h1.style.padding="100px"
+							h1.appendChild(document.createTextNode("No Uploads Yet !!!"));
+							document.getElementById("list").appendChild(h1);
+						}
+						else{
+						for(var i=0;i<res.length;i++){
+							var list=document.getElementById("list");
+							var sec = document.createElement("section");
+							sec.setAttribute("style",styl);
+							if(styl==style1){ styl=style2 }else {styl=style1};
+							var image=document.createElement("img");
+							image.setAttribute("src","http://localhost:3000/uploads/"+res[i][0]+"/thumbnail.jpg");
+							image.setAttribute("width","150");
+							image.setAttribute("height","100");
+							image.setAttribute("style","float:left;margin:2%;");
+							sec.appendChild(image);
+							sec.appendChild(document.createElement("br"));
+							sec.appendChild(document.createElement("h1").appendChild(document.createTextNode(res[i][1])));
+							sec.appendChild(document.createElement("br"));
+							sec.appendChild(document.createElement("br"));
+							var button=document.createElement("button");
+							button.setAttribute("class","btn");button.setAttribute("value",res[i][0]);
+							button.setAttribute("name","bt");button.setAttribute("style","background-color:grey;");
+							button.setAttribute("data-username",res[i][0]);
+							button.appendChild(document.createTextNode("View"));
+							sec.appendChild(button);
+							var country_rules=document.createElement("button");
+							country_rules.setAttribute("class","cr");
+							country_rules.setAttribute("name","cr");button.setAttribute("style","background-color:grey;");
+							country_rules.setAttribute("data-username",res[i][0]);
+							country_rules.appendChild(document.createTextNode("Edit Country Specific Rules"));
+							sec.appendChild(country_rules);
+							var del=document.createElement("button");
+							del.setAttribute("class","del");
+							del.setAttribute("name","bt");button.setAttribute("style","background-color:grey;");
+							del.setAttribute("data-username",res[i][0]);
+							del.appendChild(document.createTextNode("Delete"));
+							sec.appendChild(del);
+							list.appendChild(sec);
+							}
+						}
+					},
+				});			
+		});
+		$(document).on('click', '.btn', function() {
+			sessionStorage.setItem("video_id",$(this).data('username'));
+			sessionStorage.setItem("quality","");
+			window.location = "display.html";
+		});
+		$(document).on('click', '.cr', function() {
+			sessionStorage.setItem("video_id",$(this).data('username'));
+			window.location = "country-rules.html";
+		});
+		$(document).on('click', '.del', function() {
+			var video_id=$(this).data('username');
+			var urll='http://localhost:3000/remove/'+video_id;
+			$.ajax({
+				url: urll,
+				type: 'DELETE',
+				success: function(result) {
+					window.location.reload();
+				}
+			});
+		});
+		</script>		
+
+		<!-- Additional Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

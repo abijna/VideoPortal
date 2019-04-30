@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!-- front-end form to fill details about video -->
+
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+		<script type="text/javascript" src="assets/js/dict.js"></script>
+	</head>
+	
+	<body class="back">
+	
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="#">Bokeh</a></h1>
+			<a href="#menu">Menu</a>
+		</header>
+		
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><!-- <a href="dashboard.html"> -->Profile</a></li>
+			</ul>
+		</nav>
+		
+		<img src="images/Subtitles.jpg" height="500px" width="1518px">
+		
+		<section class="wrapper style1">
+			<div class="inner">
+				<pre><span style="cursor:pointer" id="Eng" onclick="mydo(this,'en')">English</span>  <span style="cursor:pointer" id="Kan" onclick="mydo(this,'kn')">Kannada</span>  <span style="cursor:pointer" id="Hin" onclick="mydo(this,'hi')">Hindi</span></pre>
+				<form id="uploadForm">
+					<input type=hidden name="username" id="username" value="" >
+					<input type=hidden name="video_id" id="video_id" value="" >
+					<div class="row uniform">
+						<b><span class="translation" value="en">Subtitle</span> <span class="translation" value="en">Languages</span>:</b>
+						<div class="12u$">
+							<input type="checkbox" name="en" id="English">
+							<label for="English">English</label>
+							<input type="checkbox" name="kn" id="Kannada">
+							<label for="Kannada">Kannada</label>
+							<input type="checkbox" name="hn" id="Hindi">
+							<label for="Hindi">Hindi</label>
+						</div>
+						<div class="12u$">
+							<b><pre><span class="translation" value="en">Browse</span> <span class="translation" value="en">Subtitle</span> <span class="translation" value="en">Files</span>: </b>( Filename format: language_name.vtt )   </pre>
+							<input type="file" name="userSubtitles" multiple />
+						</div>
+						<div class="12u$">
+							<ul class="actions">
+								<li><input name="submit" value="Upload Subtitles" type="submit" id="sub" /></li>
+								<li><input type="reset" value="Reset" class="alt" /></li>
+								<li><input type="button" value="Skip" id="skip" onClick="window.location.href='country-rules.html'" /></li>
+							</ul>
+						</div>
+						<center><span id = "status"></span></center>
+					</div>
+				</form>
+			</div>
+		</section>
+	</body>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script>
+		document.getElementById("username").value = sessionStorage.getItem("username");
+		document.getElementById("video_id").value = sessionStorage.getItem("video_id");
+		jQuery('option').mousedown(function(e) {
+			e.preventDefault();
+			jQuery(this).toggleClass('selected');
+		  
+			jQuery(this).prop('selected', !jQuery(this).prop('selected'));
+			return false;
+		});
+		
+		$('#English').on("click", function() {
+		  $(this).prop("checked") ? $('#English').val("english") : $("#English").val("");
+		})
+		
+		$('#Kannada').on("click", function() {
+		  $(this).prop("checked") ? $('#Kannada').val("kannada") : $("#Kannada").val("");
+		})
+		
+		$('#Hindi').on("click", function() {
+		  $(this).prop("checked") ? $('#Hindi').val("hindi") : $("#Hindi").val("");
+		})
+		
+		$(document).ready(function() {
+		 $('#uploadForm').submit(function() {
+			event.preventDefault();
+				// Get form
+				var form = $('#uploadForm')[0];
+
+				// Create an FormData object 
+				var data = new FormData(form);
+				$.ajax({
+					type: "POST",
+					enctype: 'multipart/form-data',
+					url: "http://localhost:3000/upload/subtitle",
+					data: data,
+					processData: false,
+					contentType: false,
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+						window.location.href="country-rules.html";
+					},
+					error: function (e) {
+						console.log("ERROR : ", e);
+					}
+				});
+		});
+		return false;
+		});    
+</script>
+		
+	</script>
+	<script>
+		function mydo(event,val){
+			var elements=document.querySelectorAll("#sp");
+			
+			for(var i=0;i<elements.length;i++){
+				
+				var txt = elements[i].innerHTML;
+				var present = elements[i].getAttribute("value");
+
+				if(val=='kn' && present=='en'){
+					if(txt.toLowerCase() in en_kn){
+						elements[i].innerHTML = en_kn[txt.toLowerCase()];
+						elements[i].setAttribute("value","kn");
+					}
+				}
+				if(val=='hi' && present=='en'){
+					if(txt.toLowerCase() in en_hi){
+					elements[i].innerHTML = en_hi[txt.toLowerCase()];
+					elements[i].setAttribute("value","hi");
+					}
+				}
+				if(val=='en' && present=='kn'){
+					elements[i].innerHTML = kn_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='en' && present=='hi'){
+					elements[i].innerHTML = hi_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='kn' && present=='hi'){
+					elements[i].innerHTML = en_kn[hi_en[txt]];
+					elements[i].setAttribute("value","kn");
+				}
+				if(val=='hi' && present=='kn'){
+					elements[i].innerHTML = en_hi[kn_en[txt]];
+					elements[i].setAttribute("value","hi");
+				}
+			}
+		}
+
+		</script>
+</html>

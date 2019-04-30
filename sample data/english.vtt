@@ -1,0 +1,421 @@
+﻿WEBVTT - https://subtitletools.com
+
+00:00:16.580 --> 00:00:20.340
+so if you're in the audience today or
+
+00:00:18.840 --> 00:00:21.210
+maybe you're watching this talk in some
+
+00:00:20.340 --> 00:00:23.519
+other time or place
+
+00:00:21.210 --> 00:00:25.679
+you are participant in the digital
+
+00:00:23.519 --> 00:00:28.589
+rights ecosystem and whether you're an
+
+00:00:25.679 --> 00:00:30.599
+artist a technologist a lawyer or a fan
+
+00:00:28.589 --> 00:00:31.740
+the handling of copyright directly
+
+00:00:30.599 --> 00:00:33.719
+impacts your life
+
+00:00:31.740 --> 00:00:36.450
+now rights management is no longer
+
+00:00:33.719 --> 00:00:38.789
+simply a question of ownership it's a
+
+00:00:36.450 --> 00:00:40.590
+complex web of relationships in a
+
+00:00:38.789 --> 00:00:43.050
+critical part of our cultural landscape
+
+00:00:40.590 --> 00:00:45.510
+a YouTube cares deeply about the rights
+
+00:00:43.050 --> 00:00:47.370
+of content owners but in order to give
+
+00:00:45.510 --> 00:00:50.520
+them choices about what they can do with
+
+00:00:47.370 --> 00:00:52.410
+copies mashups and and more we need to
+
+00:00:50.520 --> 00:00:55.199
+first identify when copyrighted material
+
+00:00:52.410 --> 00:00:56.940
+is uploaded to our site let's look at a
+
+00:00:55.199 --> 00:00:57.510
+specific video so you can see how it
+
+00:00:56.940 --> 00:00:59.670
+works
+
+00:00:57.510 --> 00:01:01.350
+two years ago recording artist Chris
+
+00:00:59.670 --> 00:01:04.589
+Brown released the official video of his
+
+00:01:01.350 --> 00:01:06.780
+single forever a fan saw it on TV
+
+00:01:04.589 --> 00:01:09.689
+recorded it with her camera phone and
+
+00:01:06.780 --> 00:01:11.939
+uploaded it to YouTube now because Sony
+
+00:01:09.689 --> 00:01:14.970
+Music had registered Chris Brown's video
+
+00:01:11.939 --> 00:01:16.710
+and our Content ID system within seconds
+
+00:01:14.970 --> 00:01:19.140
+of attempting to upload the video the
+
+00:01:16.710 --> 00:01:21.840
+copy was detected giving Sony the choice
+
+00:01:19.140 --> 00:01:25.140
+of what to do next but how do we know
+
+00:01:21.840 --> 00:01:27.180
+that the users video is a copy well it
+
+00:01:25.140 --> 00:01:29.579
+starts with content owners delivering
+
+00:01:27.180 --> 00:01:31.770
+assets into our database along with a
+
+00:01:29.579 --> 00:01:35.189
+usage policy that tells us what to do
+
+00:01:31.770 --> 00:01:37.530
+when we find a match we compare each
+
+00:01:35.189 --> 00:01:40.680
+upload against all of the reference
+
+00:01:37.530 --> 00:01:42.360
+files in our database now this heat map
+
+00:01:40.680 --> 00:01:44.189
+is going to show you how the brain of
+
+00:01:42.360 --> 00:01:46.290
+the system works here we can see the
+
+00:01:44.189 --> 00:01:49.890
+original reference file being compared
+
+00:01:46.290 --> 00:01:51.659
+to the user generated content the system
+
+00:01:49.890 --> 00:01:53.939
+compares every moment of one to the
+
+00:01:51.659 --> 00:01:55.860
+other to see if there's a match now this
+
+00:01:53.939 --> 00:01:57.630
+means that we can identify a match even
+
+00:01:55.860 --> 00:01:59.430
+if the copy uses just a portion of the
+
+00:01:57.630 --> 00:02:02.130
+original file plays it in slow motion
+
+00:01:59.430 --> 00:02:06.240
+and has degraded audio and video quality
+
+00:02:02.130 --> 00:02:08.340
+and we do this every time that a video
+
+00:02:06.240 --> 00:02:11.520
+is uploaded to YouTube and that's over
+
+00:02:08.340 --> 00:02:13.980
+20 hours of video every minute when we
+
+00:02:11.520 --> 00:02:14.280
+find a match we apply the policy that
+
+00:02:13.980 --> 00:02:17.610
+the
+
+00:02:14.280 --> 00:02:19.710
+it's owner has set down and the scale
+
+00:02:17.610 --> 00:02:22.650
+and the speed of this system is truly
+
+00:02:19.710 --> 00:02:25.710
+breathtaking we're not just talking
+
+00:02:22.650 --> 00:02:28.860
+about a few videos we're talking about
+
+00:02:25.710 --> 00:02:31.380
+over a hundred years of video every day
+
+00:02:28.860 --> 00:02:33.209
+between new uploads and the legacy scans
+
+00:02:31.380 --> 00:02:36.420
+we regularly do across all of the
+
+00:02:33.209 --> 00:02:37.890
+content on the site and when we compare
+
+00:02:36.420 --> 00:02:39.360
+those hundred years of video we're
+
+00:02:37.890 --> 00:02:41.550
+comparing it against millions of
+
+00:02:39.360 --> 00:02:45.480
+reference files in our database it he'd
+
+00:02:41.550 --> 00:02:47.520
+be like 36,000 people staring at 36,000
+
+00:02:45.480 --> 00:02:50.160
+monitors each and every day without so
+
+00:02:47.520 --> 00:02:53.880
+much as a coffee break now what do we do
+
+00:02:50.160 --> 00:02:55.920
+when we find a match well most rights
+
+00:02:53.880 --> 00:02:57.870
+owners instead of blocking will allow
+
+00:02:55.920 --> 00:03:00.330
+the copy to be published and then they
+
+00:02:57.870 --> 00:03:02.940
+benefit through the exposure advertising
+
+00:03:00.330 --> 00:03:03.930
+and linked sales remember Chris Brown's
+
+00:03:02.940 --> 00:03:05.550
+video forever
+
+00:03:03.930 --> 00:03:07.200
+well it had its day in the Sun and that
+
+00:03:05.550 --> 00:03:09.360
+had dropped off the charts and that
+
+00:03:07.200 --> 00:03:11.430
+looked like the end of the story but
+
+00:03:09.360 --> 00:03:13.980
+sometime last year a young couple got
+
+00:03:11.430 --> 00:03:16.580
+married this is their wedding video you
+
+00:03:13.980 --> 00:03:16.580
+may have seen it
+
+00:03:17.019 --> 00:03:20.659
+what's amazing about this is if the
+
+00:03:19.159 --> 00:03:22.220
+processional of the wedding was this
+
+00:03:20.659 --> 00:03:24.799
+much fun can you imagine how much fun
+
+00:03:22.220 --> 00:03:26.480
+the reception must have been I mean who
+
+00:03:24.799 --> 00:03:29.689
+are these people I totally want to go to
+
+00:03:26.480 --> 00:03:31.849
+that wedding so their little wedding
+
+00:03:29.689 --> 00:03:35.989
+video went on to get over 40 million
+
+00:03:31.849 --> 00:03:38.390
+views and instead of Sony blocking they
+
+00:03:35.989 --> 00:03:40.370
+allowed the upload to occur and they put
+
+00:03:38.390 --> 00:03:43.670
+advertising against it and linked from
+
+00:03:40.370 --> 00:03:46.310
+it to iTunes and the song 18 months old
+
+00:03:43.670 --> 00:03:49.069
+went back to number four on the iTunes
+
+00:03:46.310 --> 00:03:51.890
+charts so Sony is generating revenue
+
+00:03:49.069 --> 00:03:53.329
+from both of these and Jill and Kevin
+
+00:03:51.890 --> 00:03:54.470
+the happy couple well they came back
+
+00:03:53.329 --> 00:03:57.200
+from their honeymoon and found that
+
+00:03:54.470 --> 00:03:58.940
+their video had gone crazy viral and
+
+00:03:57.200 --> 00:04:00.530
+they ended up on a bunch of talk shows
+
+00:03:58.940 --> 00:04:02.299
+and they used it as an opportunity to
+
+00:04:00.530 --> 00:04:04.879
+make a difference the videos inspired
+
+00:04:02.299 --> 00:04:07.730
+over $26,000 in donations to end
+
+00:04:04.879 --> 00:04:10.129
+domestic violence and the JK wedding
+
+00:04:07.730 --> 00:04:12.290
+dance became so popular that NBC
+
+00:04:10.129 --> 00:04:14.750
+parodied it on the season finale of The
+
+00:04:12.290 --> 00:04:17.600
+Office which just goes to show it's
+
+00:04:14.750 --> 00:04:19.370
+truly an ecosystem of culture is it's
+
+00:04:17.600 --> 00:04:21.709
+not just amateurs borrowing from big
+
+00:04:19.370 --> 00:04:24.949
+studios but sometimes big studios
+
+00:04:21.709 --> 00:04:26.930
+borrowing back by empowering choice we
+
+00:04:24.949 --> 00:04:29.000
+can create a culture of opportunity and
+
+00:04:26.930 --> 00:04:30.349
+all I took to change things around was
+
+00:04:29.000 --> 00:04:32.900
+to allow for choice through rights
+
+00:04:30.349 --> 00:04:35.240
+identification so why is no one ever
+
+00:04:32.900 --> 00:04:37.280
+solved this problem before it's because
+
+00:04:35.240 --> 00:04:40.039
+it's a big problem and it's complicated
+
+00:04:37.280 --> 00:04:42.229
+and messy it's not uncommon for a single
+
+00:04:40.039 --> 00:04:45.500
+video to have multiple rights owners
+
+00:04:42.229 --> 00:04:47.690
+there's musical labels there's multiple
+
+00:04:45.500 --> 00:04:49.639
+music publishers and each of these can
+
+00:04:47.690 --> 00:04:51.289
+vary by country and there's lots of
+
+00:04:49.639 --> 00:04:53.180
+cases where we have more than one work
+
+00:04:51.289 --> 00:04:55.599
+matched together so we have to manage
+
+00:04:53.180 --> 00:04:57.770
+many who claims to the same video
+
+00:04:55.599 --> 00:05:00.440
+YouTube's Content ID system addresses
+
+00:04:57.770 --> 00:05:02.150
+all of these cases but the system only
+
+00:05:00.440 --> 00:05:05.090
+works for the participation of rights
+
+00:05:02.150 --> 00:05:06.650
+owners if you have content that others
+
+00:05:05.090 --> 00:05:08.900
+are uploading to YouTube you should
+
+00:05:06.650 --> 00:05:10.400
+register in the Content ID system and
+
+00:05:08.900 --> 00:05:12.740
+then you'll have the choice about how
+
+00:05:10.400 --> 00:05:14.539
+your content is used and think carefully
+
+00:05:12.740 --> 00:05:17.090
+about the policies that you attach to
+
+00:05:14.539 --> 00:05:19.669
+that content by simply blocking all
+
+00:05:17.090 --> 00:05:22.970
+reuse you'll miss out on new art forms
+
+00:05:19.669 --> 00:05:25.849
+new audiences new distribution channels
+
+00:05:22.970 --> 00:05:28.500
+and new revenue streams but it's not
+
+00:05:25.849 --> 00:05:30.810
+just about dollars and impressions
+
+00:05:28.500 --> 00:05:32.430
+just look at all the joy that was spread
+
+00:05:30.810 --> 00:05:35.010
+through progressive rights management
+
+00:05:32.430 --> 00:05:37.080
+and new technology I think we can all
+
+00:05:35.010 --> 00:05:40.580
+agree that joy is definitely an idea
+
+00:05:37.080 --> 00:05:40.580
+worth spreading thank you

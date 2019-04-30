@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<!-- front-end form to fill details about video -->
+
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+		<link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"
+		rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		
+		<link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css"
+		rel="stylesheet" type="text/css" />
+		<script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js"
+		type="text/javascript"></script>
+		<style>
+		/* --- */
+			body {
+				/*background-image: linear-gradient(to right, #004080 , #020B13) !important;*/
+				/* background: -webkit-gradient(linear, left top, left bottom, from(#004080), to(#020B13)) fixed;*/
+				background-color:#020B13;
+			  font-family: Arial;
+			  color: white;
+			  height: 100%;
+			  
+			}
+
+			/* for placeholder text color*/
+
+			::-webkit-input-placeholder {
+			color: #cccccc ;
+			}
+			 
+			:-moz-placeholder { /* Firefox 18- */
+			color: #cccccc ;  
+			}
+			 
+			::-moz-placeholder {  /* Firefox 19+ */
+			color: #cccccc ;  
+			}
+			 
+			:-ms-input-placeholder {  
+			color: #cccccc ;  
+			}
+
+			/* for splitting the page into two vertical parts */
+
+			div.border{
+				border-style:solid;
+				border-color:white;
+				border-width:1px;
+				margin:25px 10px;
+			}
+
+			.split {
+			  /**/
+			  width: 45%;
+			  position: fixed;
+			  z-index: 1;
+			  top: 0;
+			  overflow-x: hidden;
+			  padding-top: 20px;
+			}
+
+			.left {
+			  left: 0;
+			  margin-left:3%;
+			}
+
+			.right {
+			  right: 0;
+			  width:42%;
+			  right:7%;
+			}
+
+			.centered {
+			  position: absolute;
+			  top: 50%;
+			  left: 50%;
+			  transform: translate(-50%, -50%);
+			  text-align: center;
+			}
+
+			.centered img {
+			  width: 150px;
+			  border-radius: 50%;
+			}
+			
+			.back{
+				/*background-image:linear-gradient(30deg,#020B13, #33ccff);*/
+				/*background-image: linear-gradient(to right, #00ffff , #004d4d);*/
+			}
+
+		</style>
+		
+	</head>
+	
+	<body>
+		<img src="images/country2.jpg" height="500px" width="1535px">
+			<script>	
+			$.getJSON("http://localhost:3000/countries",
+				function(data){
+					var selectCont = document.getElementById('uploadForm');
+					
+					var h = document.createElement("H5")                // Create a <h1> element
+					var t = document.createTextNode("Select countries :");     // Create a text node
+					h.appendChild(t); 
+					selectCont.appendChild(h);
+					
+					var select = document.createElement("select");
+					select.setAttribute("id","count");
+					select.setAttribute("multiple","multiple");
+					select.setAttribute("style","background: rgba(255,255,255, 0.3);");
+					for(var i = 0; i < data.length; i++){
+						select.options.add(new Option(data[i], i+1));
+					}
+					selectCont.appendChild(select);
+					
+					
+					$(function () {
+					$('#count').multiselect({
+							includeSelectAllOption: true,
+							enableFiltering:true,
+							maxHeight:450
+						});
+					});
+					
+					var h1 = document.createElement("H5")                // Create a <h1> element
+					var t1 = document.createTextNode("Select Rules :");     // Create a text node
+					h1.appendChild(t1);
+					selectCont.appendChild(h1);
+					
+					$.getJSON("http://localhost:3000/rules",
+						function(data1){
+							var selectCont = document.getElementById('uploadForm');
+							var select = document.createElement("select");
+							select.setAttribute("id","rules");
+							select.setAttribute("name","rule");
+							
+							select.setAttribute("style","background: rgba(255,255,255, 0.3);");
+							for(var i = 0; i < data1.length; i++){
+								select.options.add(new Option(data1[i], i+1));
+							}
+							selectCont.appendChild(select);
+							
+							$(function () {
+							$('#rules').multiselect({
+									includeSelectAllOption: false
+							});
+							 
+							var br=document.createElement("br");
+							selectCont.appendChild(br);
+							var br1=document.createElement("br");
+							selectCont.appendChild(br1);
+							
+							var inp=document.createElement("input");
+							inp.setAttribute("type","submit");
+							inp.setAttribute("id","submit");
+							inp.setAttribute("value","Submit");
+							selectCont.appendChild(inp);
+							
+							var inp=document.createElement("input");
+							inp.setAttribute("type","submit");
+							inp.setAttribute("id","skip");
+							inp.setAttribute("value","Skip");
+							selectCont.appendChild(inp);
+							
+							$('#submit').click(function () {
+								event.preventDefault();
+								
+								var country = $("#count option:selected");
+								var country_selected = [];
+								country.each( function () {
+									country_selected.push($( this).val());
+								});
+								
+								var rule = $("#rules option:selected");
+								var rules=[]
+								rule.each( function () {
+									rules.push($( this).val());
+								});
+								
+								var send_data = new Object();
+								send_data['country_id'] = country_selected;
+								send_data['rule_id'] = rules;
+								send_data['username'] = sessionStorage.getItem("username");
+								send_data['video_id'] = sessionStorage.getItem("video_id");
+								//data1 = JSON.stringify(send_data);
+								$.ajax({
+									  url: "http://localhost:3000/add/rules",
+									  type: 'POST',
+									  data: send_data,
+									  success: function(data){
+										//code to open in new window comes here
+										sessionStorage.setItem("video_id","");
+										window.location.href="dash.html";
+									  }
+								  });
+							});
+							
+							$('#skip').click(function () {
+								event.preventDefault();
+								window.location.href='dash.html';
+							});
+						});
+					});
+				}
+				
+				
+			);
+			
+			</script>
+
+		<center>
+			<form id="uploadForm" enctype="multipart/form-data">
+			</form>
+		</center>
+	 
+</body>

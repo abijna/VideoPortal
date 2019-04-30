@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+
+<!-- front-end page to upload video -->
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+	</head>
+	
+	<body >
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="dash.html">Home</a></li>
+				<li><a href="profile.html">Profile</a></li>
+				<li><a href="index.html">Logout</a></li>
+			</ul>
+		</nav>
+		
+		<!-- to make image as a button -->
+		<br><br><br><br>
+		<center>
+			<!-- content -->
+			<div id="videodiv">
+			<img id="imgFileUpload" alt="Select File" title="Select File" src="images/final-upl.png" width='600px' height='500px' style="cursor: pointer" />
+			</div>
+		</center>
+		<br />
+		
+		<!-- form to upload video -->
+		<span id="spnFilePath"></span>
+		<form id="vidsub" >
+			<input type=hidden id="username" name="username" value="">
+			<input type=hidden id="video_id" name="video_id" value="" >
+			<input type="file" name="filetoupload" accept="video/*" id="FileUpload1" style="display: none">
+		</form> 
+		<!-- script to handle event of onclick upload image -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script type="text/javascript">
+			var d = (+new Date).toString(36); 
+			sessionStorage.setItem("video_id",'_' + Math.random().toString(36).substr(2, 9));
+			document.getElementById("username").value = sessionStorage.getItem("username");
+			document.getElementById("video_id").value = sessionStorage.getItem("video_id");
+			
+			window.onload = function () {
+				var fileupload = document.getElementById("FileUpload1");
+				var filePath = document.getElementById("spnFilePath");
+				var image = document.getElementById("imgFileUpload");
+				image.onclick = function () {
+					fileupload.click();
+				};
+				fileupload.onchange = function () {
+					//document.getElementById("vidsub").submit();
+					var form = $('#vidsub')[0];
+
+					// Create an FormData object 
+					var data = new FormData(form);
+					
+					    $.ajax({
+							type: "POST",
+							enctype: 'multipart/form-data',
+							url: 'http://localhost:3000/upload/',
+							data: data,
+							processData: false,
+							contentType: false,
+							cache: false,
+							timeout: 600000,
+							success: function (data) {
+								window.location.href="video-details.html";
+							},
+							error: function (e) {
+								console.log("ERROR : ", e);
+							}
+						});
+				};
+			};
+		</script>		
+
+		<!-- Additional Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

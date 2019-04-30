@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+	</head>
+	<body class="subpage">
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="dash.html">Home</a></li>
+				<li><a href="index.html">Logout</a></li>
+			</ul>
+		</nav>
+		<div id="main">
+		<section class="wrapper style1">
+			<div class="inner">
+				<!-- Form -->
+				<h3 class="fields"></h3>
+				<center>
+					<div class="img-circle"></div>
+				</center>
+				<table >
+					<tr>
+						<td>Name : </td><td class="fields" id= "name"></td>
+					</tr>
+					<tr>
+						<td>Country : </td> <td class="fields"  id= "loc"></td>
+
+					</tr>
+					<tr>
+						<td>Date of Birth : </td ><td class="fields" id= "dob"></td>
+
+					</tr>
+					<tr>
+						<td>Password : </td><td class="fields"  id= "pass"></td>
+
+					</tr>	
+					</table>
+				<form id="form">
+					
+				</form>
+			</div>
+		</section>
+		</div>
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript">
+			function loginRedirect(username)
+			{
+				sessionStorage.setItem("username", username);
+				sessionStorage.setItem("log","valid");
+				window.location.href="dash.html";
+			}
+			var elements = document.querySelectorAll(".fields");
+			var user= sessionStorage.getItem("username");
+
+			$.ajax({
+				type: 'GET',
+				url: 'http://localhost:8000/user/details/'+user,
+				contentType: "application/json",
+				complete:function(x,e) 
+				{
+				if (x.status==200) 
+				{
+					var arr = JSON.parse(x.responseText)[0]
+					console.log(arr)
+					elements[0].innerHTML="Hello, "+user;
+					elements[1].innerHTML=arr.FN+" "+arr.LN;
+					elements[2].innerHTML=arr.Location;
+					var date1= new Date(Date.parse(arr.DOB));
+
+					date1=date1.toLocaleDateString();
+					elements[3].innerHTML=date1;
+					elements[4].innerHTML=arr.Password
+					
+				} 
+				else if(x.status==204) 
+				{
+					sessionStorage.setItem("log","invalid");
+					alert(x.responseText);
+				} 
+				else if(x.status==400) 
+				{
+					sessionStorage.setItem("log","invalid");
+					alert(x.responseText);
+				} 
+				},
+				dataType: 'json'
+			});
+		</script>
+	</body>
+</html>

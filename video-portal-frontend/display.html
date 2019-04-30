@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<!-- front-end page to upload video -->
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	</head>
+	
+	<body >
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+		</header>
+		<!-- Nav -->
+		
+		<br><br><br>
+		<pre><a href="dash.html" style="color:white">  <u>Back to Home</u></a></pre>
+		
+		<section class="wrapper style1">
+		<center>
+		<div class="inner" id="videodiv">
+			<video id="videoPlayer" height="400" width="700px" controls="controls" crossorigin="anonymous">
+			</video>
+			<br>
+			<button id="fast" onclick="setPlaySpeed(3)">Fast</button>
+			<button id="norm" onclick="setPlaySpeed(1)">Normal</button>
+			<button id="slow" onclick="setPlaySpeed(0.5)">Slow</button>
+			<button id="resolution360" onclick="setQuality(360)">360px</button>
+			<button id="resolution720" onclick="setQuality(720)">720px</button>
+			</div></center>
+		</section>
+		
+		<script>
+			var vid=document.getElementById("videoPlayer");
+			var source=document.createElement("source");
+			source.setAttribute("id","change");
+			source.setAttribute("src","http://localhost:3000/uploads/"+sessionStorage.getItem("video_id")+"/video"+sessionStorage.getItem("quality")+".mp4");
+			source.setAttribute("type","video/mp4");
+			vid.appendChild(source);
+			
+			$.ajax({
+				type: 'GET',
+				url: "http://localhost:3000/subtitle/languages/"+sessionStorage.getItem("video_id"),
+				data: {},
+				success:function(res){
+					for(var i=0;i<res.length;i++){
+					var track=document.createElement("track");
+					track.setAttribute("src","http://localhost:3000/uploads/"+sessionStorage.getItem("video_id")+"/"+res[i][0]+".vtt");
+					track.setAttribute("kind","subtitles");
+					track.setAttribute("srclang",res[i][1]);
+					track.setAttribute("label",res[i][0]);
+					vid.appendChild(track);
+					}
+				}
+			});	
+			
+			var firstplay=true;
+			vid.onplay = function(){
+				var urll='http://localhost:3000/update/view/'+sessionStorage.getItem("video_id");
+				if(firstplay==true){
+				$.ajax({
+				type: 'POST',
+				url: urll,
+				data: {},
+				success:function(res){
+					console.log("successful");
+				}
+			});	
+			}
+			firstplay=false;
+			}
+			
+			
+		</script>
+		<script>
+		
+		var vid=document.getElementById("videoPlayer");
+		function setPlaySpeed(i) { 
+		  vid.playbackRate = i;
+		} 
+		
+		function setQuality(i) {
+			if(i=="360"){
+				sessionStorage.setItem("quality","360");
+				location.reload();
+			}
+			else{
+				sessionStorage.setItem("quality","");
+				location.reload();
+			}
+			
+		}
+		</script>
+	</body>
+</html>
