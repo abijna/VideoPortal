@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+	</head>
+	<body>
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="#">Bokeh</a></h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="index.html">Logout</a></li>
+				<li><a href="dash.html">Dashboard</a></li>
+			</ul>
+		</nav>
+		<section class="wrapper style1">
+			<div class="inner">
+				<div class="4u 12u$(small)">
+					<input type="radio" id="cat" name="type">
+					<label for="cat">Category</label>
+				</div>
+				<div class="4u 12u$(small)">
+					<input type="radio" id="username" name="type">
+					<label for="username">Username</label>
+				</div>
+				<div class="4u$ 12u$(small)">
+					<input type="radio" id="title" name="type">
+					<label for="title">Title</label>
+				</div>
+				<div class="12u$" id="selectcat" style="display: none;">
+					<div class="select-wrapper">
+						<b><span class="translation" value="en">Category</span> *</b>
+							<select name="category" id="category_sel" style="color:#cccccc;" required>
+								<option value="" style="color:#cccccc;" disabled selected required>Choose category</option>
+							</select>
+					</div>
+				</div>
+				<div class="12u$" id="textbox" style="display: none;">
+					<div class="select-wrapper">
+						<b><span class="translation" value="en">Search</span> </b>
+							<input type="text" id="searchquery" name="query" value="" placeholder="Enter text"></input>
+					</div>
+				</div>
+				<br>
+				<div class="4u 12u$(small)">
+					<input type="checkbox" id="kids" name="type">
+					<label for="kids">Kids Content Filter</label>
+				</div>
+				<br>
+				<div class="12u$" >
+					<div class="select-wrapper">
+						<button id="submit">Submit</button>
+					</div>
+				</div>
+				<br>
+				<h3>Search results</h3>
+				<br/>
+				<section id="list">
+				</section>
+			</div>
+		
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript">
+			var style1="background-color:#062038;margin:1%;overflow:auto";
+			var style2="background-color:#041321;margin:1%;overflow:auto";
+			var styl=style1;	
+			var inputtype;
+			var inputsearchstring;
+			var filter=0;
+			document.getElementById("cat").onclick = function() { 
+  			inputtype="category";
+            document.getElementById("selectcat").style.display = "block"; 
+            document.getElementById("textbox").style.display = "none"; 
+            //searchstring = getElementById("category_sel").value;
+  
+        } 
+
+         document.getElementById("username").onclick = function() { 
+       
+  			inputtype="username";
+            document.getElementById("textbox").style.display = "block";
+            document.getElementById("selectcat").style.display = "none"; 
+            //searchstring = getElementById("searchquery").value;
+  
+        } 
+        document.getElementById("title").onclick = function() { 
+        
+  			inputtype="title";
+            document.getElementById("textbox").style.display = "block"; 
+            document.getElementById("selectcat").style.display = "none"; 
+            //searchstring = getElementById("searchquery").value;
+  
+        } 
+        document.getElementById("kids").onclick = function() { 
+        	filter=1;
+        }
+
+        document.getElementById("submit").onclick = function() { 
+  			if(inputtype=="category"){inputsearchstring = document.getElementById("category_sel").value;}
+  			else inputsearchstring = document.getElementById("searchquery").value;
+            var data = new Object();
+            var list=document.getElementById("list");
+				data['username'] = inputsearchstring;
+				data['type'] = inputtype;
+				data['filter'] = filter;
+				data1 = JSON.stringify(data);
+				$.ajax({
+					type: 'POST',
+					url: 'http://localhost:3000/search',
+					data: data1 ,
+					contentType: "application/json",
+					success:function(res) {
+
+						if(res.length==0){
+							list.innerHTML="";
+							var h1 = document.createElement("h1");
+							h1.appendChild(document.createTextNode("No Results"));
+							document.getElementById("list").appendChild(h1);
+						}
+						else{
+							list.innerHTML="";
+							for(var i=0;i<res.length;i++){
+									var sec = document.createElement("section");
+									sec.setAttribute("style",styl);
+									if(styl==style1){ styl=style2 }else {styl=style1};
+									var image=document.createElement("img");
+									image.setAttribute("src","http://localhost:3000/uploads/"+res[i][0]+"/thumbnail.jpg");
+									image.setAttribute("width","150");
+									image.setAttribute("height","100");
+									image.setAttribute("style","float:left;margin:2%;");
+									sec.appendChild(image);
+									sec.appendChild(document.createElement("br"));
+									sec.appendChild(document.createElement("h1").appendChild(document.createTextNode(res[i][1])));
+									sec.appendChild(document.createElement("br"));
+									sec.appendChild(document.createElement("br"));
+									var button=document.createElement("button");
+									button.setAttribute("class","btn");button.setAttribute("value",res[i][0]);
+									button.setAttribute("name","bt");button.setAttribute("style","background-color:grey;");
+									button.setAttribute("data-username",res[i][0]);
+									button.appendChild(document.createTextNode("View"));
+									sec.appendChild(button);
+									list.appendChild(sec);
+								}
+							}		
+  
+        			}
+        		});
+        	}
+
+  			$(document).on('click', '.btn', function() {
+			sessionStorage.setItem("video_id",$(this).data('username'));
+			sessionStorage.setItem("quality",'');
+			window.location = "display.html";
+			});
+			//var user = sessionStorage.getItem("username");
+
+			var categories = new Array("Auto & Vehicles","Beauty & Fashion","Comedy","Education","Entertainment","Family Entertainment",
+						"Film & Animation","Food","Gaming","How-to & Style","Music","News & Politics","Nonprofits & Activism","People & Blogs",
+						"Pets & Animals","Science & Technology","Sports","Travel & Events","Others");
+			var selectCat = document.getElementById('category_sel');
+			for(var i = 0; i < categories.length; i++){
+				selectCat.options.add(new Option(categories[i], categories[i]));
+			}
+
+		</script>
+	</body>
+</html>

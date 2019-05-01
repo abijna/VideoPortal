@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+	</head>
+	<body class="subpage">
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="signup.html">Sign Up</a></li>
+			</ul>
+		</nav>
+		<div id="main">
+		<section class="wrapper style1">
+			<div class="inner">
+				<!-- Form -->
+				<h3>Login</h3>
+
+				<form id="form">
+					<div class="row uniform">
+						<div class="12u$">
+							<input type="text" name="uname" id="uname" value="" placeholder="Username" />
+						</div>
+						<div  class="12u$">
+							<input type="password" name="pwd" id="pwd" value="" placeholder="Password" />
+						</div>
+						<!-- Break -->
+						<!-- <div class="6u$ 12u$(small)">
+							<input type="checkbox" id="signed" name="signed" >
+							<label for="signed">Keep me signed in</label>
+						</div> -->
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions">
+								<li><input type="submit" value="Login" /></li>
+								<!-- <li><input type="reset" value="Reset" class="alt" /></li> -->
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		</div>
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript">
+			function loginRedirect(username)
+			{
+				sessionStorage.setItem("username", username);
+				sessionStorage.setItem("log","valid");
+				window.location.href="dash.html";
+			}
+			$("#form").submit(function (event) 
+			{
+				//var data = $("form").serializeArray();
+				var form = $(this);
+				var inps = $("input")
+				var use = inps[0].value;
+				var pass = inps[1].value;
+				event.preventDefault();
+				var data = new Object();
+				data['uname'] = use;
+				data['password'] = pass;
+				data1 = JSON.stringify(data);
+				$.ajax({
+					type: 'POST',
+					url: 'http://localhost:8000/user/login',
+					data: data1, 
+					contentType: "application/json",
+					complete:function(x,e) 
+					{
+					console.log(x)
+					if (x.status==200) 
+					{
+						loginRedirect(use);
+					} 
+					else if(x.status==204) 
+					{
+						alert(x.responseText);
+					} 
+					else if(x.status==400) 
+					{
+						alert(x.responseText);
+					} 
+					},
+					dataType: 'json'
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bokeh</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" href="images/play.png" type="image/png" sizes="16x16">
+		<script type="text/javascript" src="assets/js/dict.js"></script>
+	</head>
+	<body class="subpage">
+		<!-- Header -->
+		<header id="header">
+			<h1>Bokeh</h1>
+			<a href="#menu">Menu</a>
+		</header>
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="login.html">Login</a></li>
+			</ul>
+		</nav>
+		<section class="wrapper style1">
+			<div class="inner">
+				<pre><span style="cursor:pointer" id="Eng" onclick="mydo(this,'en')">English</span>  <span style="cursor:pointer" id="Kan" onclick="mydo(this,'kn')">Kannada</span>  <span style="cursor:pointer" id="Hin" onclick="mydo(this,'hi')">Hindi</span></pre>
+				<!-- Form -->
+				<h3>Sign up</h3>
+				
+				<form id="form">
+					<div class="row uniform">
+						<div class="12u$">
+							<b><span class="translation" value="en">Username</span> *</b>
+							<input type="text" name="uname" id="uname" value="" placeholder="Username" required />
+						</div>
+						<div class="6u 12u$(xsmall)">
+							<pre><b><span class="translation" value="en">First</span> <span class="translation" value="en">Name</span> *</b></pre>
+							<input type="text" name="fname" id="fname" value="" placeholder="First Name" required />
+						</div>
+						<div class="6u$ 12u$(xsmall)">
+							<pre><b><span class="translation" value="en">Last</span> <span class="translation" value="en">Name</span> *</b></pre>
+							<input type="text" name="lname" id="lname" value="" placeholder="Last Name" required />
+						</div>
+						<!-- Break -->
+						<div class="12u$">
+							<b><span class="translation" value="en">Country</span> *</b>
+							<input type="text" name="location" id="location" value="" placeholder="Country" required />
+						</div>
+						<div class="12u$">
+							<b><span class="translation" value="en">Date</span> *</b>
+							<input type="date" name="dob" id="dob" value="" placeholder="Date of birth" required />
+						</div>
+						<div  class="12u$">
+							<b><span class="translation" value="en">Password</span> *</b>
+							<input type="password" name="pwd" id="pwd" value="" placeholder="Password" required />
+						</div>
+						<div  class="12u$">
+							<pre><b><span class="translation" value="en">Confirm</span> <span class="translation" value="en">Password</span> *</b></pre>
+							<input type="password" name="pwdc" id="pwdc" value="" placeholder="Confirm Password" required />
+						</div>
+						<!-- Break -->
+						<div class="12u$">
+							<ul class="actions">
+								<li><input type="submit" id="sub"value="Sign up" /></li>
+								<li><input type="reset" value="Reset" class="alt" /></li>
+							</ul>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script type="text/javascript">
+			$("#form").submit(function (event) 
+			{
+				//var data = $("form").serializeArray();
+				event.preventDefault();
+				var a=document.getElementById("pwd");
+				var b=document.getElementById("pwdc");
+				var c=document.getElementById("form");
+				if((a.value==b.value)&&(a.value.length>=8))
+				{
+					var form = $(this);
+					var inps = $("input")
+					var use = inps[0].value;
+					var fn = inps[1].value;
+					var ln = inps[2].value;
+					var loc = inps[3].value;
+					var dob = inps[4].value;
+					var pwd = inps[5].value;
+					var data = new Object();
+					data['uname'] = use;
+					data['fname'] = fn;
+					data['lname'] = ln;
+					data['location'] = loc;
+					data['dob'] = dob;
+					data['pwd'] = pwd;
+					data1 = JSON.stringify(data);
+					$.ajax({
+						type: 'POST',
+						url: 'http://localhost:8000/user/create',
+						data: data1, 
+						contentType: "application/json",
+						complete:function(x,e) 
+						{
+						console.log(x)
+						if (x.status==201) 
+						{
+							alert(x.responseText);
+							window.location.href="index.html";
+						} 
+						else if(x.status==204) 
+						{
+							alert(x.responseText);
+							window.location.href="index.html";
+						} 
+						else if(x.status==400) 
+						{
+							alert(x.responseText);
+							window.location.href="index.html";
+						} 
+						},
+						dataType: 'json'
+					});		
+				}
+				else if((a.value.length<8))
+				{
+					alert("Password less than 8 characters");
+					c.reset();
+					
+				}
+				else 
+				{
+					alert("Passwords do not match");
+					c.reset();
+					
+				}
+			});
+		</script>
+		<script> 
+		/* language translation*/
+		function mydo(event,val){
+			var elements=document.querySelectorAll(".translation");
+			
+			for(var i=0;i<elements.length;i++){
+				
+				var txt = elements[i].innerHTML;
+				var present = elements[i].getAttribute("value");
+
+				if(val=='kn' && present=='en'){
+					if(txt.toLowerCase() in en_kn){
+						elements[i].innerHTML = en_kn[txt.toLowerCase()];
+						elements[i].setAttribute("value","kn");
+					}
+				}
+				if(val=='hi' && present=='en'){
+					if(txt.toLowerCase() in en_hi){
+					elements[i].innerHTML = en_hi[txt.toLowerCase()];
+					elements[i].setAttribute("value","hi");
+					}
+				}
+				if(val=='en' && present=='kn'){
+					elements[i].innerHTML = kn_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='en' && present=='hi'){
+					elements[i].innerHTML = hi_en[txt];
+					elements[i].setAttribute("value","en");
+				}
+				if(val=='kn' && present=='hi'){
+					elements[i].innerHTML = en_kn[hi_en[txt]];
+					elements[i].setAttribute("value","kn");
+				}
+				if(val=='hi' && present=='kn'){
+					elements[i].innerHTML = en_hi[kn_en[txt]];
+					elements[i].setAttribute("value","hi");
+				}
+			}
+		}
+		</script>
+
+	</body>
+</html>
